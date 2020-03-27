@@ -1,0 +1,232 @@
+WEEK 1
+KEY CONCEPTS
+- Explain SQL and Relational Databases
+- Create a database instance on the Cloud
+- Learn how to write basic SQL statements
+- Practice basic SQL statements hands-on on a live database
+
+- SQL
+- Data
+- Database
+- Relational
+- RDBMS
+- 5 basic SQL commands:Create, Insert, Select, Update, Delete
+--SELECT(COUNT, DISTINCT, LIMIT)
+- Using String, Patterns, Ranges, Sets of values
+- How to sort the result set by either ascending or descending order 
+- Explain how to indicate which column to use for the sorting order
+- How to Eliminate duplicates from result set
+- Describe how to further restrict a result set
+
+.............................................................................................
+WEEK 2
+
+- KEY CONCEPTS
+- Explain how to use string patterns and ranges in SQL queries
+- Demonstrate how to sort and order result sets
+- Practice use of grouping data in result sets
+- Employ Built-in functions in Queries
+- Demonstrate how to write sub-queries and nested selects
+- Build queries to access multiple tables
+
+
+Lab1
+-- 0. Drop table INSTRUCTOR in case it already exists
+drop table INSTRUCTOR
+;
+--1. Create table INSTRUCTOR
+CREATE TABLE INSTRUCTOR
+  (ins_id INTEGER PRIMARY KEY NOT NULL, 
+   lastname VARCHAR(15) NOT NULL, 
+   firstname VARCHAR(15) NOT NULL, 
+   city VARCHAR(15), 
+   country CHAR(2)
+  )
+;
+--2A. Insert single row for Rav Ahuja
+INSERT INTO INSTRUCTOR
+  (ins_id, lastname, firstname, city, country)
+  VALUES 
+  (1, 'Ahuja', 'Rav', 'Toronto', 'CA')
+;
+--2B. Insert the two rows for Raul and Hima
+INSERT INTO INSTRUCTOR
+  VALUES
+  (2, 'Chong', 'Raul', 'Toronto', 'CA'),
+  (3, 'Vasudevan', 'Hima', 'Chicago', 'US')
+;
+--3. Select all rows in the table
+SELECT * FROM INSTRUCTOR
+;
+--3b. Select firstname, lastname and country where city is Toronto
+SELECT firstname, lastname, country from INSTRUCTOR where city='Toronto'
+;
+--4. Change the city for Rav to Markham
+UPDATE INSTRUCTOR SET city='Markham' where ins_id=1
+;
+--5. Delete the row for Raul Chong
+DELETE FROM INSTRUCTOR where ins_id=2
+;
+--5b. Retrieve all rows from the table
+SELECT * FROM INSTRUCTOR 
+;
+...........................................
+Built in Functions 
+Aggregate or Column Functions 
+
+INPUT: Collection of values 
+Output: single value
+Examples: Sum(), MIN(), MAX(), AVG()
+
+SUM 
+SUM Functions: Add up all the values in a column
+SUM (COLUMN_NAME)
+
+Example1: Add all values in the SALEPRICE column:
+select SUM(SALEPRICE) from PETSALE
+Example 2: Explicitly name the output column SUM_OF_SALEPRICE:
+select SUM(SALEPRICE) as SUM_OF_SALEPRICE from PETSALE
+
+MIM:Return the Minimum value
+MAX:Return the Maximum value 
+
+Example 3A. Get the maximum QUANTITY of any ANIMAL:
+select MAX(QUANTITY) from PETSALE
+
+Example 3B. Get the minimum value of ID column for Dogs
+select MIN(ID) from PETSALE where ANIMAL = 'DOG'
+
+Average
+AVG() retun the average value 
+
+Example 4:Specify the Average value of SALEPRICE
+select AVG(SALEPRICE) from PETSALE
+
+Mathematical Operations can be performed between columns.
+Example 5. Calculate the average SALEPRICE per 'DOG';
+select AVG(SALEPRICE / QUANTITY) from PETSALE 
+where ANIMAL = 'DOG'
+
+SCALAR AND STRING FUNCTIONS:
+
+SCALAR: Perform operations on every input value
+Examples: ROUND(), LENGTH(), UCASE, LCASE
+
+Example 6: Round UP or DOWN every value in SALEPRICE:
+select ROUND(SALEPRICE) from PETSALE
+
+Example 7: Retrieve the length of each value in ANIMAL:
+select LENGTH(ANIMAL) from PETSALE
+..............
+UCASE, LCASE
+.............
+Example 8: Retrieve ANIMAL values in UPPERCASE:
+select UCASE(ANIMAL) from PETSALE
+
+Example 9: Use the function in a WHERE clause:
+select * from PETSALE
+where LCASE(ANIMAL) = 'cat'
+
+Example 10: Use the DISTINCT() function to get unique values:
+select DISTINCT(UCASE(ANIMAL)) from PETSALE
+....................................
+DATE, TIME FUNCTIONS
+................................
+YEAR(), MONTH(), DAY(), DAYOFMONTH(), DAYOFWEEK(),
+DAYOFYEAR(), WEEK(), HOUR(), MINUTE(), SECONDS()
+
+Example 11: Extract the DAY portion from date:
+select DAY(SALEDATE) from PETSALE
+where ANIMAL = 'CAT'
+
+Example 12: Get the number of sales during the month of MAY:
+select COUNT(*) from PETSALE
+where MONTH(SALEDATE) ='05'
+
+Example 13: What date is it 3 days after each sale date?
+Select (SALEDATE + 3 DAYS) from PETSALE
+
+Special Registers:
+CURRENT_DATE, CURRENT_TIME
+
+Example 14: Find how many days have passed since each SALEDATE till now 
+Select (CURRENT_DATE - SALEDATE) from PETSALE
+..............................................
+Sub query and nested Selects
+................................
+select COLUMN1 from TABLE
+where COLUMN2 = (select MAX(COLUMN2) from TABLE)
+
+Why use Sub queries?
+To retrieve the list of employees who earn more than the 
+average salary:
+............................
+select * from employees
+	where salary > AVG(salary)
+This is an incorrect statement the correct statement is below
+.........................................
+select EMP_ID, F_NAME, L_NAME, SALARY
+	from employees
+	where SALARY <
+	(select AVG(SALARY) from employees);
+............................................
+select EMP_ID, SALARY, (select AVG(SALARY) from employees)
+AS AVG_SALARY from employees
+.............................................
+Create a table expression that contains nonsensitive employee information
+Select * from(select EMP_ID, F_NAME, L_NAME, DEP_ID from employees) AS EMP4ALL
+........................................................
+Working with Multiple Tables 
+ways to access multiple table in the same query 
+1. Sub-queries 
+2. Implicit JOIN
+3. JOIN operators (INNER JOIN, OUTER JOIN, etc.)
+
+.............................................
+Relational Model Constraints - Advanced 
+- Entity Integrity Contraint 
+- Refrential Integrity Contraint
+- Semantic Integrity Contraint 
+- Domain Contraint 
+- Null Contraint
+- Check Contraint
+..............................................................
+
+WEEK 3
+KEY CONCEPTS
+- Describe concepts related to accessing Databases using Python
+- Learn and Practice how to connect to a database from a Jupyter notebook
+- Understand and demonstrate how to create tables and insert data from Python
+- Write SQL queries and retrieve result sets from Python
+- Practice how to perform simplified database access from Python using SQL magic
+- Enumerate different type of JOIN operations
+- Explain what is an INNER JOIN and practice hands-on
+- Distinguish between different types of OUTER JOINs and apply your understanding
+.........................................................................
+"db": "BLUDB",
+  "dsn": "DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net;PORT=50000;PROTOCOL=TCPIP;UID=xnp06696;PWD=6vz^6xszv1w98xlb;",
+  "host": "dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net",
+  "hostname": "dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net",
+  "https_url": "https://dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net:8443",
+  "jdbcurl": "jdbc:db2://dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net:50000/BLUDB",
+  "parameters": {},
+  "password": "6vz^6xszv1w98xlb",
+  "port": 50000,
+  "ssldsn": "DATABASE=BLUDB;HOSTNAME=dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net;PORT=50001;PROTOCOL=TCPIP;UID=xnp06696;PWD=6vz^6xszv1w98xlb;Security=SSL;",
+  "ssljdbcurl": "jdbc:db2://dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net:50001/BLUDB:sslConnection=true;",
+  "uri": "db2://xnp06696:6vz%5E6xszv1w98xlb@dashdb-txn-sbox-yp-lon02-02.services.eu-gb.bluemix.net:50000/BLUDB",
+  "username": "xnp06696"
+.......................................................
+Hands-on LAB 1: Connecting to a database instance
+
+.................................................................................
+Week 4
+Demonstrate effective use of formulating SQL queries
+Demonstrate use of invoking SQL queries from Jupyter notebooks using Python
+Demonstrate skill in retrieving SQL query results and analyzing data
+
+
+
+
+
+
